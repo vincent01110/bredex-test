@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(path = "client")
 public class ClientController {
@@ -19,19 +21,19 @@ public class ClientController {
         this.clientService = clientService;
     }
     @GetMapping
-    public String getHello(){
-
-        return "Hello World!";
+    public ResponseEntity<List<Client>> getClients(){
+        return new ResponseEntity<>(this.clientService.getClients(), HttpStatus.OK);
     }
 
 
     @PostMapping
     public ResponseEntity<String> postClient(@RequestBody Client client){
         try{
-            return new ResponseEntity<>(clientService.saveClient(client), HttpStatus.OK);
+            return new ResponseEntity<>(this.clientService.saveClient(client), HttpStatus.OK);
         } catch(IllegalArgumentException exc){
             return new ResponseEntity<>(exc.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (Exception e){
+            System.out.println(e.getCause());
             return new ResponseEntity<>("An Error Occured", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
