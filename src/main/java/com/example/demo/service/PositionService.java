@@ -7,6 +7,9 @@ import org.springframework.stereotype.Service;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 @Service
 public class PositionService {
@@ -37,6 +40,19 @@ public class PositionService {
         if(position.getTitle().length() > 50) throw new IllegalArgumentException("Position title too long");
         if(position.getLocation() == null || position.getLocation().length() == 0) throw new IllegalArgumentException("Position location not provided");
         if(position.getLocation().length() > 50) throw new IllegalArgumentException("Position location too long");
+    }
+
+    public List<Position> findPosition(Map<String, String> queryParams){
+        validateQuery(queryParams);
+        String title = queryParams.get("title");
+        String location = queryParams.get("location");
+        return this.positionRepository.findByPropertyLike(Objects.toString(location, ""), Objects.toString(title, ""));
+    }
+
+    private void validateQuery(Map<String, String> queryParams){
+        String title = queryParams.get("title");
+        String location = queryParams.get("location");
+        if(title == null && location == null) throw new IllegalArgumentException("No query parameter provided");
     }
 
 }
