@@ -25,8 +25,8 @@ public class ClientService {
     }
 
     public String saveClient(Client client){
-        if(!validateEmail(client.getEmail())) throw new IllegalArgumentException("Email is not valid");
-        if(!validateName(client.getName())) throw new IllegalArgumentException("Name is not valid");
+        validateEmail(client.getEmail());
+        validateName(client.getName());
         String token = this.apiKeyService.generateNewKey();
         client.setApi_key(token);
         this.clientRepository.save(client);
@@ -35,13 +35,23 @@ public class ClientService {
 
 
 
-    private boolean validateEmail(String email){
+    private void validateEmail(String email){
+        if(email == null || email.length() == 0) throw new IllegalArgumentException("Email is not provided");
         String emailRegex = "^[A-Za-z0-9+_.-]+@(.+)$";
-        return email.matches(emailRegex) && email.length() > 0;
+        if(!email.matches(emailRegex)){
+            throw new IllegalArgumentException("Email is not in a valid format");
+        }
+        if(email.length() > 45){
+            throw new IllegalArgumentException("Email is too long");
+        }
+        if(this.clientRepository.findByEmail(email).isPresent()) {
+            throw new IllegalArgumentException("Email is already registered");
+        }
     }
 
-    private boolean validateName(String name){
-        return name.length() <= 100 && name.length() > 0;
+    private void validateName(String name){
+        if(name.length() > 100) throw new IllegalArgumentException("Name is too long");
+        if(name.length() == 0) throw new IllegalArgumentException("Name is not provided");
     }
 
 }

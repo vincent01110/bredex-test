@@ -4,3 +4,8 @@ create table client(
     name varchar(100) NOT NULL,
     api_key varchar(36) NOT NULL
 );
+
+create table position(
+    title varchar(50) NOT NULL,
+    location varchar(50) NOT NULL
+);
