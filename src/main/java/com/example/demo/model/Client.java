@@ -13,7 +13,7 @@ public class Client {
     private Long id;
     private String name;
     private String email;
-    private String api_key;
+    private String apiKey;
 
     public Client() {
     }
@@ -22,7 +22,7 @@ public class Client {
         this.id = id;
         this.name = name;
         this.email = email;
-        this.api_key = api_key;
+        this.apiKey = api_key;
     }
 
     public Long getId() {
@@ -49,12 +49,12 @@ public class Client {
         this.email = email;
     }
 
-    public String getApi_key() {
-        return api_key;
+    public String getApiKey() {
+        return apiKey;
     }
 
-    public void setApi_key(String api_key) {
-        this.api_key = api_key;
+    public void setApiKey(String apiKey) {
+        this.apiKey = apiKey;
     }
 
 
@@ -64,7 +64,7 @@ public class Client {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
-                ", api_key='" + api_key + '\'' +
+                ", api_key='" + apiKey + '\'' +
                 '}';
     }
 }

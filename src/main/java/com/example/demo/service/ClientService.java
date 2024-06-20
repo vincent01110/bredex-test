@@ -15,6 +15,7 @@ public class ClientService {
     @Autowired
     private final ApiKeyService apiKeyService;
 
+
     public ClientService(ClientRepository clientRepository, ApiKeyService apiKeyService) {
         this.clientRepository = clientRepository;
         this.apiKeyService = apiKeyService;
@@ -28,9 +29,13 @@ public class ClientService {
         validateEmail(client.getEmail());
         validateName(client.getName());
         String token = this.apiKeyService.generateNewKey();
-        client.setApi_key(token);
-        this.clientRepository.save(client);
-        return token;
+        client.setApiKey(token);
+        try{
+            this.clientRepository.save(client);
+            return token;
+        } catch (Error e){
+            throw new RuntimeException("An error occurred while saving");
+        }
     }
 
 
