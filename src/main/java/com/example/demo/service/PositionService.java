@@ -1,7 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.exception.ApiKeyValidationException;
-import com.example.demo.exception.ResourceNotFoundExcepion;
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.exception.ValidationException;
 import com.example.demo.model.Position;
 import com.example.demo.repository.PositionRepository;
@@ -70,7 +70,7 @@ public class PositionService {
         if (!this.apiKeyService.isKeyValid(apiKey)) throw new ApiKeyValidationException("API key not found");
 
         Optional<Position> pos = this.positionRepository.findById(id);
-        if (pos.isEmpty()) throw new ResourceNotFoundExcepion("Position not found with id: " + id);
+        if (pos.isEmpty()) throw new ResourceNotFoundException("Position not found with id: " + id);
 
         return pos.get();
     }

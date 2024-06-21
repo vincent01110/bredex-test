@@ -1,16 +1,14 @@
 package com.example.demo.controller;
 
 import com.example.demo.exception.ApiKeyValidationException;
-import com.example.demo.exception.ResourceNotFoundExcepion;
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.exception.ValidationException;
 import com.example.demo.model.Position;
 import com.example.demo.service.PositionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
 
 
@@ -43,7 +41,7 @@ public class PositionController {
             return new ResponseEntity<>(this.positionService.getPositionById(id, apiKey), HttpStatus.OK);
         } catch (ValidationException | ApiKeyValidationException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        } catch (ResourceNotFoundExcepion e){
+        } catch (ResourceNotFoundException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         } catch (Exception e){
             System.out.println(e.getCause());

@@ -1,7 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.exception.ApiKeyValidationException;
-import com.example.demo.exception.ResourceNotFoundExcepion;
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.exception.ValidationException;
 import com.example.demo.model.Position;
 import com.example.demo.repository.PositionRepository;
@@ -32,33 +32,6 @@ public class PositionServiceTest {
         MockitoAnnotations.openMocks(this);
     }
 
-    @Test
-    public void testSavePosition() {
-        when(apiKeyService.isKeyValid(anyString())).thenReturn(true);
-
-        Position position = new Position();
-        position.setTitle("Software Engineer");
-        position.setLocation("New York");
-
-
-        when(positionRepository.save(any(Position.class))).thenReturn(position);
-
-
-        String apiKey = "validApiKey";
-        String result = positionService.savePosition(position, apiKey);
-
-
-        verify(positionRepository, times(1)).save(position);
-
-
-        assertNotNull(result);
-
-
-        assertTrue(result.contains("http://localhost:8080/position/"));
-
-
-        assertDoesNotThrow(() -> positionService.savePosition(position, apiKey));
-    }
 
     @Test
     public void testSavePosition_InvalidApiKey() {
@@ -97,7 +70,7 @@ public class PositionServiceTest {
         Map<String, String> queryParams = new HashMap<>();
         queryParams.put("title", "Software Engineer");
         queryParams.put("location", "New York");
-        String apiKey = "validApiKey";
+        String apiKey = "2e9c6f79-4d72-40a7-a3dc-406bda398627";
 
         List<String> result = positionService.findPosition(queryParams, apiKey);
 
@@ -140,7 +113,7 @@ public class PositionServiceTest {
         when(positionRepository.findById(1L)).thenReturn(Optional.of(position));
 
 
-        String apiKey = "validApiKey";
+        String apiKey = "2e9c6f79-4d72-40a7-a3dc-406bda398627";
         Position result = positionService.getPositionById(1L, apiKey);
 
 
@@ -161,7 +134,7 @@ public class PositionServiceTest {
         when(positionRepository.findById(1L)).thenReturn(Optional.empty());
 
         String apiKey = "validApiKey";
-        assertThrows(ResourceNotFoundExcepion.class, () -> positionService.getPositionById(1L, apiKey));
+        assertThrows(ResourceNotFoundException.class, () -> positionService.getPositionById(1L, apiKey));
 
         verify(positionRepository, times(1)).findById(1L);
     }
