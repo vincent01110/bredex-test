@@ -50,7 +50,7 @@ public class PositionService {
         validateQuery(queryParams);
         String title = queryParams.get("title");
         String location = queryParams.get("location");
-        List<Position> positions = this.positionRepository.findByPropertyLike(Objects.toString(location, ""), Objects.toString(title, ""));
+        List<Position> positions = this.positionRepository.findByPropertyLikeIgnoreCase(Objects.toString(location, ""), Objects.toString(title, ""));
         return positions.stream().map(this::linkifyPosition).collect(Collectors.toList());
     }
 
