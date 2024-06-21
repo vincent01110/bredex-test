@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.exception.ValidationException;
 import com.example.demo.model.Client;
 import com.example.demo.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +22,6 @@ public class ClientService {
         this.apiKeyService = apiKeyService;
     }
 
-    public List<Client> getClients(){
-        return this.clientRepository.findAll();
-    }
 
     public String saveClient(Client client){
         validateEmail(client.getEmail());
@@ -41,22 +39,22 @@ public class ClientService {
 
 
     private void validateEmail(String email){
-        if(email == null || email.length() == 0) throw new IllegalArgumentException("Email is not provided");
+        if(email == null || email.length() == 0) throw new ValidationException("Email is not provided");
         String emailRegex = "^[A-Za-z0-9+_.-]+@(.+)$";
         if(!email.matches(emailRegex)){
-            throw new IllegalArgumentException("Email is not in a valid format");
+            throw new ValidationException("Email is not in a valid format");
         }
         if(email.length() > 45){
-            throw new IllegalArgumentException("Email is too long");
+            throw new ValidationException("Email is too long");
         }
         if(this.clientRepository.findByEmail(email).isPresent()) {
-            throw new IllegalArgumentException("Email is already registered");
+            throw new ValidationException("Email is already registered");
         }
     }
 
     private void validateName(String name){
-        if(name.length() > 100) throw new IllegalArgumentException("Name is too long");
-        if(name.length() == 0) throw new IllegalArgumentException("Name is not provided");
+        if(name.length() > 100) throw new ValidationException("Name is too long");
+        if(name == null || name.length() == 0) throw new ValidationException("Name is not provided");
     }
 
 }

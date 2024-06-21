@@ -21,7 +21,7 @@ public class ApiKeyService {
         return uuid.toString();
     }
 
-    public boolean isKeyValid(String key){
-        return this.clientRepository.findByApiKey(key).isPresent();
+    public boolean isKeyValid(String apiKey){
+        return this.clientRepository.findByApiKey(apiKey).isPresent();
     }
 }
