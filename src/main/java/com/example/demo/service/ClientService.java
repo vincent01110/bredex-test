@@ -11,12 +11,12 @@ import java.util.List;
 @Service
 public class ClientService {
 
-    @Autowired
+
     private final ClientRepository clientRepository;
-    @Autowired
     private final ApiKeyService apiKeyService;
 
 
+    @Autowired
     public ClientService(ClientRepository clientRepository, ApiKeyService apiKeyService) {
         this.clientRepository = clientRepository;
         this.apiKeyService = apiKeyService;

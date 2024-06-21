@@ -17,11 +17,11 @@ import java.util.stream.Collectors;
 @Service
 public class PositionService {
 
-    @Autowired
+
     private final PositionRepository positionRepository;
-    @Autowired
     private final ApiKeyService apiKeyService;
 
+    @Autowired
     public PositionService(PositionRepository positionRepository, ApiKeyService apiKeyService) {
         this.positionRepository = positionRepository;
         this.apiKeyService = apiKeyService;
