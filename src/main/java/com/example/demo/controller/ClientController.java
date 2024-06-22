@@ -25,14 +25,13 @@ public class ClientController {
 
 
     @PostMapping
-    public ResponseEntity<String> postClient(@RequestBody Client client){
+    public ResponseEntity<?> postClient(@RequestBody Client client){
         try{
             return new ResponseEntity<>(this.clientService.saveClient(client), HttpStatus.CREATED);
         } catch(ValidationException exc){
             return new ResponseEntity<>(exc.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (Exception e){
-            System.out.println(e.getCause());
-            return new ResponseEntity<>("An Error Occured", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("An Error Occurred", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
     }

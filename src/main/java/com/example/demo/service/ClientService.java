@@ -53,8 +53,8 @@ public class ClientService {
     }
 
     private void validateName(String name){
-        if(name.length() > 100) throw new ValidationException("Name is too long");
         if(name == null || name.length() == 0) throw new ValidationException("Name is not provided");
+        if(name.length() > 100) throw new ValidationException("Name is too long");
     }
 
 }

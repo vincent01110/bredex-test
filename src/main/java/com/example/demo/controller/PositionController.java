@@ -30,8 +30,7 @@ public class PositionController {
         } catch (ValidationException | ApiKeyValidationException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (Exception e){
-            System.out.println(e.getCause());
-            return new ResponseEntity<>("An Error Occured", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("An Error Occurred", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -44,21 +43,19 @@ public class PositionController {
         } catch (ResourceNotFoundException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         } catch (Exception e){
-            System.out.println(e.getCause());
-            return new ResponseEntity<>("An Error Occured", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("An Error Occurred", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @PostMapping
-    public ResponseEntity<String> postPosition(@RequestBody Position position, @RequestHeader("api-key") String apiKey){
+    public ResponseEntity<?> postPosition(@RequestBody Position position, @RequestHeader("api-key") String apiKey){
         try {
             String url = this.positionService.savePosition(position, apiKey);
             return new ResponseEntity<>(url, HttpStatus.CREATED);
         } catch (ValidationException | ApiKeyValidationException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (Exception e){
-            System.out.println(e.getCause());
-            return new ResponseEntity<>("An Error Occured", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("An Error Occurred", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
